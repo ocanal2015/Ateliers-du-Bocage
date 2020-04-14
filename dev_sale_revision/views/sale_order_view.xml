@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle
+ -->
+<odoo>
+    <record id="sale_order_revision_view" model="ir.ui.view">
+        <field name="name">sale.order.revision.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_confirm']" position="after">
+                <button name="action_sale_revision_validate" type="object" string="Create Revision"
+                        class="oe_highlight" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+            </xpath>
+            <xpath expr="//button[@name='action_view_invoice']" position="before">
+                <button type="object" name="action_view_sale_revision" state='confirm'
+                        class="oe_stat_button" icon="fa-align-justify"  attrs="{'invisible': [('sale_history_count', '=', 0)]}">
+                    <field name='sale_history_count' widget="statinfo" string='Revision'/>
+                </button>
+            </xpath>
+            <xpath expr="//page[1]" position="after">
+                <page string="Sale Revision">
+                    <field name="sale_history_id" readonly='True'>
+                        <tree>
+                            <field name='order_id'/>
+                            <field name='user_id'/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
